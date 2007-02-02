@@ -1,16 +1,17 @@
-# Dreamhost RailsFCGIHandler mods so a kill -TERM doesn't kill your site while handling a request
+require 'fcgi_handler'
+
 class RailsFCGIHandler
+ # Dreamhost: changes TERM signal handling so your site isn't killed while handling a request
  private
    def busy_exit_handler(signal)
      dispatcher_log :info, "busy: asked to terminate during request signal #{signal}, deferring!"
      @when_ready = :exit
    end
 
-   # Dreamhost sends the term signal and if we are handling a request defer it
    def term_process_request(cgi)
      install_signal_handler('TERM',method(:busy_exit_handler).to_proc)
      Dispatcher.dispatch(cgi)
-   rescue Exception => e  # errors from CGI dispatch
+   rescue Exception => e
      raise if SignalException === e
      dispatcher_error(e)
    ensure
