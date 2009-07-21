@@ -1,7 +1,11 @@
+This plugin is deprecated and no longer necessary now that Dreamhost uses Phusion Passenger
+
 Dreamhost FCGIHandler
 =====================
 
 Installation: 
+
+Original post: http://gabrito.com/post/ruby-on-rails-dreamhost-plugin
 
 script/plugin install http://gabrito.com/svn/plugins/dreamhost
 
